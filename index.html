@@ -3,174 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Nexus Gallery — Prototipo base</title>
-<style>
-  :root{
-    --bg:#101014; --fg:#e8e8ec; --accent:#6ab0ff; --panel:rgba(16,16,20,.78);
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);}
-  body{
-    height:100%;margin:0;background:var(--bg);color:var(--fg);
-    font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    overflow:hidden;
-  }
-  #c{display:block;width:100%;height:100%;}
-  #hud{
-    position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:16px;
-    background:var(--panel);padding:10px 14px;border-radius:8px;
-    font-size:13px;line-height:1.5;pointer-events:none;max-width:260px;
-  }
-  #hud b{color:var(--accent);}
-  #start{
-    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-    background:rgba(8,8,10,.92);flex-direction:column;gap:14px;text-align:center;padding:24px;
-  }
-  #start h1{font-size:20px;margin:0;font-weight:600;}
-  #start p{margin:0;color:#aaa;font-size:14px;max-width:360px;}
-  #start button{
-    background:var(--accent);color:#07131f;border:none;border-radius:8px;
-    padding:12px 22px;font-size:15px;font-weight:600;cursor:pointer;
-  }
-</style>
+<title>Nexus Gallery</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="hud">
-  <b>Nexus Gallery</b> — prototipo base<br>
+  <b>Nexus Gallery</b><br>
   WASD: moverse · Mouse: mirar · ESC: liberar cursor
 </div>
 <div id="start">
   <h1>Nexus Gallery</h1>
-  <p>Recorrido base: estructura, cámara y navegación en primera persona. Sin texturas finales ni iluminación definitiva todavía.</p>
+  <p>Recorrido virtual en primera persona por una galería de arte futurista.</p>
   <button id="go">Haz clic para entrar</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x15151a);
-scene.fog = new THREE.Fog(0x15151a, 10, 40);
-
-const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
-camera.position.set(0, 1.6, -4);
-
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias:true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.setSize(innerWidth, innerHeight);
-
-addEventListener('resize', () => {
-  camera.aspect = innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
-
-// Iluminación neutral provisional
-scene.add(new THREE.HemisphereLight(0x8899aa, 0x101014, 0.9));
-const dl = new THREE.DirectionalLight(0xffffff, 0.5);
-dl.position.set(5, 8, -3);
-scene.add(dl);
-
-const wallMat = new THREE.MeshStandardMaterial({ color: 0x8a8d93, roughness: 0.9 });
-const floorMat = new THREE.MeshStandardMaterial({ color: 0x55575c, roughness: 0.8 });
-const padMat = new THREE.MeshStandardMaterial({ color: 0x6f7278, roughness: 0.6 });
-const pieceMat = new THREE.MeshStandardMaterial({ color: 0x9fb8d9, roughness: 0.3, metalness: 0.2 });
-
-const H = 6, T = 0.3;
-function box(w,h,d,x,y,z,mat){
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
-  m.position.set(x,y,z);
-  scene.add(m);
-  return m;
-}
-function room(cz, size){
-  const half = size/2;
-  box(size, T, size, 0, 0, cz, floorMat);
-  box(size, T, size, 0, H, cz, wallMat);
-  box(T, H, size, -half, H/2, cz, wallMat);
-  box(T, H, size, half, H/2, cz, wallMat);
-  box((size-4)/2, H, T, -half + (size-4)/4, H/2, cz-half, wallMat);
-  box((size-4)/2, H, T, half - (size-4)/4, H/2, cz-half, wallMat);
-  box((size-4)/2, H, T, -half + (size-4)/4, H/2, cz+half, wallMat);
-  box((size-4)/2, H, T, half - (size-4)/4, H/2, cz+half, wallMat);
-}
-room(0, 16);
-room(26, 16);
-box(T, H, 10, -2, H/2, 13, wallMat);
-box(T, H, 10, 2, H/2, 13, wallMat);
-box(4, T, 10, 0, 0, 13, floorMat);
-box(4, T, 10, 0, H, 13, wallMat);
-
-const pedestalPositions = [[-5,-5],[5,-5],[-5,5],[5,5],[-5,26+5],[5,26+5],[-5,26-5],[5,26-5]];
-const shapes = [
-  () => new THREE.IcosahedronGeometry(0.6,0),
-  () => new THREE.TorusKnotGeometry(0.4,0.15,80,12),
-  () => new THREE.OctahedronGeometry(0.65,0),
-];
-pedestalPositions.forEach(([x,z], i) => {
-  box(1,1,1,x,0.5,z,padMat);
-  const geo = shapes[i % shapes.length]();
-  const piece = new THREE.Mesh(geo, pieceMat);
-  piece.position.set(x, 1.5, z);
-  scene.add(piece);
-});
-
-// Navegación en primera persona (pointer lock + WASD)
-let yaw = 0, pitch = 0;
-const keys = {};
-document.addEventListener('keydown', e => keys[e.code] = true);
-document.addEventListener('keyup', e => keys[e.code] = false);
-
-const startEl = document.getElementById('start');
-document.getElementById('go').addEventListener('click', () => {
-  renderer.domElement.requestPointerLock();
-});
-document.addEventListener('pointerlockchange', () => {
-  startEl.style.display = document.pointerLockElement ? 'none' : 'flex';
-});
-document.addEventListener('mousemove', e => {
-  if (document.pointerLockElement !== renderer.domElement) return;
-  yaw -= e.movementX * 0.0022;
-  pitch -= e.movementY * 0.0022;
-  pitch = Math.max(-1.3, Math.min(1.3, pitch));
-});
-
-// Límites simples de colisión (cajas por zona caminable)
-const zones = [
-  { x:[-7.5,7.5], z:[-7.5,7.5] },
-  { x:[-1.7,1.7], z:[7.5,18.5] },
-  { x:[-7.5,7.5], z:[18.5,33.5] },
-];
-function inside(x,z){
-  return zones.some(zn => x>=zn.x[0] && x<=zn.x[1] && z>=zn.z[0] && z<=zn.z[1]);
-}
-
-const speed = 3.2;
-let last = performance.now();
-function animate(now){
-  const dt = Math.min((now-last)/1000, 0.1); last = now;
-  camera.rotation.set(pitch, yaw, 0, 'YXZ');
-
-  const forward = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
-  const right = new THREE.Vector3(forward.z, 0, -forward.x);
-  let move = new THREE.Vector3();
-  if (keys['KeyW']) move.add(forward);
-  if (keys['KeyS']) move.sub(forward);
-  if (keys['KeyD']) move.add(right);
-  if (keys['KeyA']) move.sub(right);
-  if (move.lengthSq() > 0) move.normalize().multiplyScalar(speed*dt);
-
-  const nx = camera.position.x + move.x;
-  const nz = camera.position.z + move.z;
-  if (inside(nx, camera.position.z)) camera.position.x = nx;
-  if (inside(camera.position.x, nz)) camera.position.z = nz;
-
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
-requestAnimationFrame(animate);
-</script>
+<script src="js/config.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/environment.js"></script>
+<script src="js/controls.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

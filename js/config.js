@@ -11,6 +11,10 @@ Nexus.config = {
   doorWidth: 4,
   hallwayLength: 10,
 
+  // Texturas: metros de superficie que cubre una repetición de la imagen
+  floorTileSize: 4,
+  wallTileSize: 3,
+
   // Jugador
   eyeHeight: 1.6,
   walkSpeed: 3.2,

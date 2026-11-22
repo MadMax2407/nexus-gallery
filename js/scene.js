@@ -10,6 +10,7 @@
   camera.position.set(cfg.startPosition.x, cfg.startPosition.y, cfg.startPosition.z);
 
   const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
+  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(innerWidth, innerHeight);
 
@@ -20,7 +21,7 @@
   });
 
   // Iluminación neutral provisional
-  scene.add(new THREE.HemisphereLight(0x8899aa, 0x101014, 0.9));
+  scene.add(new THREE.HemisphereLight(0x8899aa, 0x101014, 0.5));
   const sunlight = new THREE.DirectionalLight(0xffffff, 0.5);
   sunlight.position.set(5, 8, -3);
   scene.add(sunlight);

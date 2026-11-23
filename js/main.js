@@ -7,7 +7,7 @@
     lastTime = now;
 
     Nexus.controls.update(deltaSeconds);
-    Nexus.renderer.render(Nexus.scene, Nexus.camera);
+    Nexus.postprocessing.render();
     requestAnimationFrame(frame);
   }
 

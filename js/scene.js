@@ -4,7 +4,7 @@
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(cfg.backgroundColor);
-  scene.fog = new THREE.Fog(cfg.backgroundColor, 10, 40);
+  scene.fog = new THREE.FogExp2(cfg.backgroundColor, cfg.fogDensity);
 
   const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 100);
   camera.position.set(cfg.startPosition.x, cfg.startPosition.y, cfg.startPosition.z);

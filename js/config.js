@@ -3,6 +3,7 @@ window.Nexus = window.Nexus || {};
 
 Nexus.config = {
   backgroundColor: 0x15151a,
+  fogDensity: 0.025,
 
   // Arquitectura
   wallHeight: 6,
@@ -20,11 +21,14 @@ Nexus.config = {
 
   // Neón: paleta y parámetros de las luces
   neon: { cyan: 0x00e5ff, magenta: 0xff2bd6, violet: 0x8a5cff },
-  neonEmissive: 2.2,
+  neonEmissive: 3,
   stripThickness: 0.06,
   stripHeight: 0.08,
   neonLightIntensity: 1.8,
   neonLightDistance: 18,
+
+  // Efecto bloom (resplandor de las zonas muy brillantes)
+  bloom: { strength: 0.8, radius: 0.5, threshold: 0.65 },
 
   // Reflectores sobre las obras
   spotColor: 0xcfe8ff,

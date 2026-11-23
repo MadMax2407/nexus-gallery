@@ -20,9 +20,9 @@
     renderer.setSize(innerWidth, innerHeight);
   });
 
-  // Iluminación neutral provisional
-  scene.add(new THREE.HemisphereLight(0x8899aa, 0x101014, 0.5));
-  const sunlight = new THREE.DirectionalLight(0xffffff, 0.5);
+  // Iluminación base tenue; el ambiente lo define lighting.js
+  scene.add(new THREE.HemisphereLight(0x8899aa, 0x101014, cfg.baseLight.hemisphere));
+  const sunlight = new THREE.DirectionalLight(0xffffff, cfg.baseLight.sun);
   sunlight.position.set(5, 8, -3);
   scene.add(sunlight);
 

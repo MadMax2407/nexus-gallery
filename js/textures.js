@@ -71,11 +71,11 @@
     const ctx = canvas.getContext('2d');
     floorTiles(ctx,
       (x, y) => {
-        ctx.fillStyle = gray(34 + random() * 10);
+        ctx.fillStyle = gray(205 + random() * 8);
         ctx.fillRect(x, y, half, half);
       },
       () => {
-        ctx.fillStyle = '#0b0c10';
+        ctx.fillStyle = '#9aa0ab';
         ctx.fillRect(0, 0, SIZE, GROUT / 2);
         ctx.fillRect(0, half - GROUT / 2, SIZE, GROUT);
         ctx.fillRect(0, SIZE - GROUT / 2, SIZE, GROUT / 2);
@@ -83,7 +83,7 @@
         ctx.fillRect(half - GROUT / 2, 0, GROUT, SIZE);
         ctx.fillRect(SIZE - GROUT / 2, 0, GROUT / 2, SIZE);
       });
-    addSpeckle(ctx, 2500, 20, 70, 0.5);
+    addSpeckle(ctx, 2500, 175, 225, 0.35);
     return canvas;
   }
 
@@ -92,7 +92,7 @@
     const ctx = canvas.getContext('2d');
     floorTiles(ctx,
       (x, y) => {
-        ctx.fillStyle = gray(70 + random() * 25);   // pulido: rugosidad baja
+        ctx.fillStyle = gray(48 + random() * 20);   // pulido: rugosidad baja
         ctx.fillRect(x, y, half, half);
       },
       () => {
@@ -124,7 +124,7 @@
     return canvas;
   }
 
-  // ---- Paredes: 2 x 2 paneles metálicos con costuras y remaches ----
+  // ---- Muros: 2 x 2 paneles lisos con costuras finas ----
   const SEAM = 6;
   const RIVET_OFFSET = 26;
 
@@ -160,19 +160,18 @@
     const canvas = createCanvas();
     const ctx = canvas.getContext('2d');
     eachPanel((x, y) => {
-      ctx.fillStyle = gray(98 + random() * 14);
+      ctx.fillStyle = gray(236 + random() * 6);
       ctx.fillRect(x, y, half, half);
     });
-    addBrushing(ctx, 900, 70, 150, 0.18);
-    drawSeams(ctx, '#15171c');
-    drawRivets(ctx, '#2a2d34', 5);
+    addBrushing(ctx, 900, 215, 245, 0.12);
+    drawSeams(ctx, '#b9bfca');
     return canvas;
   }
 
   function buildWallRoughness() {
     const canvas = createCanvas();
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = gray(120);
+    ctx.fillStyle = gray(85);
     ctx.fillRect(0, 0, SIZE, SIZE);
     addBrushing(ctx, 1200, 90, 190, 0.35);
     drawSeams(ctx, gray(225));
@@ -186,7 +185,6 @@
     ctx.fillRect(0, 0, SIZE, SIZE);
     addBrushing(ctx, 600, 150, 190, 0.3);
     drawSeams(ctx, gray(20));
-    drawRivets(ctx, gray(245), 5);
     return canvas;
   }
 

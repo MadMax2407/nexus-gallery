@@ -1,4 +1,4 @@
-// Construcción geométrica del entorno: salas, pasillo y pedestales con piezas.
+// Construcción geométrica del entorno: salas, pasillo y pedestales.
 (function () {
   const cfg = Nexus.config;
   const scene = Nexus.scene;
@@ -57,28 +57,25 @@
     addBox(cfg.doorWidth, T, length, 0, H, centerZ, mat.ceiling);
   }
 
-  // Pedestales con piezas provisionales (geometrías primitivas).
+  // Pedestales cilíndricos. Las piezas que van encima las construye pieces.js.
   function buildPedestals(roomCenters) {
-    const pieceShapes = [
-      () => new THREE.IcosahedronGeometry(0.6, 0),
-      () => new THREE.TorusKnotGeometry(0.4, 0.15, 80, 12),
-      () => new THREE.OctahedronGeometry(0.65, 0)
-    ];
-    let index = 0;
-    roomCenters.forEach(centerZ => {
+    const geometry = new THREE.CylinderGeometry(0.55, 0.65, 1, 32);
+    const slots = [];
+    roomCenters.forEach((centerZ, room) => {
       cfg.pedestalOffsets.forEach(([x, z]) => {
-        addBox(1, 1, 1, x, 0.5, centerZ + z, mat.pedestal);
-        const piece = new THREE.Mesh(pieceShapes[index % pieceShapes.length](), mat.piece);
-        piece.position.set(x, 1.5, centerZ + z);
-        scene.add(piece);
-        index++;
+        const pedestal = new THREE.Mesh(geometry, mat.pedestal);
+        pedestal.position.set(x, 0.5, centerZ + z);
+        scene.add(pedestal);
+        slots.push({ x, z: centerZ + z, room });
       });
     });
+    return slots;
   }
 
   const roomBCenterZ = cfg.roomSize + cfg.hallwayLength;
   buildRoom(0);
   buildRoom(roomBCenterZ);
   buildHallway(cfg.roomSize / 2 + cfg.hallwayLength / 2);
-  buildPedestals([0, roomBCenterZ]);
+
+  Nexus.pedestalSlots = buildPedestals([0, roomBCenterZ]);
 })();

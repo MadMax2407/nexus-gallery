@@ -4,7 +4,7 @@
   const camera = Nexus.camera;
   const canvas = Nexus.renderer.domElement;
 
-  let yaw = 0;
+  let yaw = cfg.startYaw;   // empieza mirando hacia el pasillo
   let pitch = 0;
   const pressedKeys = {};
 
@@ -36,8 +36,9 @@
   function update(deltaSeconds) {
     camera.rotation.set(pitch, yaw, 0, 'YXZ');
 
-    const forward = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
-    const right = new THREE.Vector3(forward.z, 0, -forward.x);
+    // La cámara mira hacia -Z cuando yaw = 0, por eso el avance usa signo negativo.
+    const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+    const right = new THREE.Vector3(-forward.z, 0, forward.x);
     const move = new THREE.Vector3();
     if (pressedKeys['KeyW']) move.add(forward);
     if (pressedKeys['KeyS']) move.sub(forward);

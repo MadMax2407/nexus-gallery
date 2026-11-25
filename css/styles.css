@@ -27,6 +27,7 @@ body {
 }
 #start h1 { font-size: 20px; margin: 0; font-weight: 600; }
 #start p { margin: 0; color: #aaa; font-size: 14px; max-width: 360px; }
+#start small { color: #8a93a8; font-size: 12px; max-width: 360px; }
 #start button {
   background: var(--accent); color: #07131f; border: none; border-radius: 8px;
   padding: 12px 22px; font-size: 15px; font-weight: 600; cursor: pointer;

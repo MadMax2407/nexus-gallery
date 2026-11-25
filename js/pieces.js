@@ -176,6 +176,6 @@
     const baseY = PEDESTAL_TOP + FLOAT_HEIGHT;
     object.position.set(slot.x, baseY, slot.z);
     scene.add(object);
-    return { object, baseY };
+    return { object, baseY, artwork: Nexus.artworks[index % Nexus.artworks.length] };
   });
 })();

@@ -27,14 +27,14 @@ Nexus.config = {
   },
 
   // Iluminación base (tenue: el ambiente lo definen el neón, el mapa de entorno y los tragaluces)
-  baseLight: { hemisphere: 0.3, sun: 0.1 },
+  baseLight: { hemisphere: 0.35, sun: 0.1 },
 
   // Neón: paleta y parámetros de las luces
   neon: { cyan: 0x00e5ff, magenta: 0xff2bd6, violet: 0x8a5cff },
   neonEmissive: 5,
   stripThickness: 0.06,
   stripHeight: 0.08,
-  neonLightIntensity: 1.0,
+  neonLightIntensity: 1.2,
   neonLightDistance: 18,
 
   // Tragaluces ovalados en el techo de las salas
@@ -44,7 +44,7 @@ Nexus.config = {
   bloom: { strength: 0.45, radius: 0.5, threshold: 1.0 },
 
   // Exposición final de la imagen: 1 = normal; menos = más oscuro; más = más claro
-  exposure: 1.0,
+  exposure: 1.15,
 
   // Reflectores sobre las obras (solo si quality.spotlights = true)
   spotColor: 0xcfe8ff,

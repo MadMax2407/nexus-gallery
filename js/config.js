@@ -37,6 +37,15 @@ Nexus.config = {
   neonLightIntensity: 1.2,
   neonLightDistance: 18,
 
+  // Animación: giro y flotación de las obras, y pulso suave de las luces de neón
+  animation: {
+    pieceSpin: [0.35, -0.25, 0.4, 0.3, -0.45, 0.2, -0.3, 0.5],   // rad/s de cada obra (el signo es el sentido)
+    floatAmplitude: 0.08,   // metros de subida y bajada
+    floatFrequency: 0.25,   // ciclos por segundo
+    pulseAmount: 0.25,      // variación de brillo del neón (0.25 = ±25 %)
+    pulseFrequency: 0.25    // ciclos por segundo
+  },
+
   // Tragaluces ovalados en el techo de las salas
   skylight: { halfLength: 3.2, halfWidth: 2.4, brightness: 1.1 },
 

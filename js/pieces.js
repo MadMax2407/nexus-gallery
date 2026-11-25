@@ -81,6 +81,7 @@
       const size = 0.95 - 0.055 * i;
       const slab = mesh(new THREE.BoxGeometry(size, 0.09, size), i % 2 ? glass : pearl, 0, -0.8 + i * 0.12, 0);
       slab.rotation.y = i * 0.33;
+      slab.userData.spinY = i % 2 ? 0.3 : -0.3;
       group.add(slab);
     }
     group.add(mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.9, 8), glow(neon.magenta), 0, 0.05, 0));
@@ -91,7 +92,9 @@
   function nestedSpheres() {
     const group = new THREE.Group();
     group.add(mesh(new THREE.SphereGeometry(0.62, 32, 24), glass));
-    group.add(mesh(new THREE.IcosahedronGeometry(0.42, 1), wire(neon.violet)));
+    const cage = mesh(new THREE.IcosahedronGeometry(0.42, 1), wire(neon.violet));
+    cage.userData.spinY = 0.7;
+    group.add(cage);
     group.add(mesh(new THREE.SphereGeometry(0.17, 20, 16), glow(neon.magenta)));
     return group;
   }
@@ -115,7 +118,12 @@
     const group = new THREE.Group();
     group.add(mesh(new THREE.TorusKnotGeometry(0.35, 0.1, 128, 16), glass));
     const orbits = [[0.8, 0.2, 0, neon.cyan], [-0.5, -0.25, 0.6, neon.magenta], [0.05, 0.75, -0.6, neon.violet]];
-    orbits.forEach(([x, y, z, color]) => group.add(mesh(new THREE.SphereGeometry(0.09, 16, 12), glow(color), x, y, z)));
+    orbits.forEach(([x, y, z, color], i) => {
+      const pivot = new THREE.Group();            // al girar el pivote, la esfera orbita
+      pivot.userData.spinY = [0.9, 0.4, -0.7][i];
+      pivot.add(mesh(new THREE.SphereGeometry(0.09, 16, 12), glow(color), x, y, z));
+      group.add(pivot);
+    });
     return group;
   }
 
@@ -146,6 +154,7 @@
     shards.forEach(([x, y, z, size], i) => {
       const shard = mesh(new THREE.OctahedronGeometry(size, 0), i % 2 ? pearl : glow(i % 3 ? neon.violet : neon.cyan), x, y, z);
       shard.rotation.set(i, i * 0.7, 0);
+      shard.userData.spinY = 0.6 + i * 0.2;
       group.add(shard);
     });
     return group;
@@ -160,6 +169,9 @@
     b.rotation.x = Math.PI / 2;
     const c = ring(neon.violet);
     c.rotation.y = Math.PI / 2;
+    a.userData.spinY = 0.8;
+    b.userData.spinY = -1.0;
+    c.userData.spinY = 1.3;
     group.add(a, b, c);
     group.add(mesh(new THREE.SphereGeometry(0.17, 20, 16), pearl));
     return group;

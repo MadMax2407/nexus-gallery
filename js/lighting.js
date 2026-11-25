@@ -116,5 +116,5 @@
   if (cfg.quality.spotlights) Nexus.pedestalSlots.forEach(addSpotlight);
 
   // Se exponen para poder animarlos más adelante (pulsos de luz).
-  Nexus.lighting = { neonMaterials, neonLights, spotLights };
+  Nexus.lighting = { neonMaterials, neonLights, spotLights, floorRingMaterials: ringMaterials };
 })();

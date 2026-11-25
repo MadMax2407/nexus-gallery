@@ -7,6 +7,7 @@
     lastTime = now;
 
     Nexus.controls.update(deltaSeconds);
+    Nexus.animation.update(now / 1000, deltaSeconds);
     Nexus.postprocessing.render();
     requestAnimationFrame(frame);
   }

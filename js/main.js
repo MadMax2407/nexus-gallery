@@ -8,6 +8,7 @@
 
     Nexus.controls.update(deltaSeconds);
     Nexus.animation.update(now / 1000, deltaSeconds);
+    Nexus.interaction.update(deltaSeconds);
     Nexus.postprocessing.render();
     requestAnimationFrame(frame);
   }

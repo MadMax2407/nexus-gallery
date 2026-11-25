@@ -20,6 +20,24 @@ body {
   font-size: 13px; line-height: 1.5; pointer-events: none; max-width: 260px;
 }
 #hud b { color: var(--accent); }
+#crosshair {
+  position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -4px 0 0 -4px;
+  border-radius: 50%; background: rgba(20, 24, 32, .75); border: 1px solid rgba(255, 255, 255, .9);
+  display: none; pointer-events: none; transition: width .15s, height .15s, margin .15s, border-color .15s;
+}
+body.locked #crosshair { display: block; }
+#crosshair.active { width: 14px; height: 14px; margin: -8px 0 0 -8px; border-color: var(--info-accent, var(--accent)); }
+#info {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px)); box-sizing: border-box; padding: 14px 18px;
+  background: var(--panel); border: 1px solid rgba(255, 255, 255, .12);
+  border-top: 3px solid var(--info-accent, var(--accent)); border-radius: 10px;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+#info.visible { opacity: 1; }
+#info h2 { margin: 0 0 2px; font-size: 18px; font-weight: 600; }
+#info .technique { color: var(--info-accent, var(--accent)); font-size: 13px; margin-bottom: 8px; }
+#info p { margin: 0; font-size: 14px; line-height: 1.45; color: #d5dbe6; }
 #start {
   position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
   background: rgba(8, 8, 10, .92); flex-direction: column; gap: 14px;

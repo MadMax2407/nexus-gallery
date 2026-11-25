@@ -58,8 +58,12 @@
   }
 
   // Pedestales cilíndricos. Las piezas que van encima las construye pieces.js.
+  // Sus medidas se exponen para que otros módulos (las placas) calculen su posición.
+  const PEDESTAL = { radiusTop: 0.55, radiusBottom: 0.65, height: 1 };
+  Nexus.pedestalSpec = PEDESTAL;
+
   function buildPedestals(roomCenters) {
-    const geometry = new THREE.CylinderGeometry(0.55, 0.65, 1, 32);
+    const geometry = new THREE.CylinderGeometry(PEDESTAL.radiusTop, PEDESTAL.radiusBottom, PEDESTAL.height, 32);
     const slots = [];
     roomCenters.forEach((centerZ, room) => {
       cfg.pedestalOffsets.forEach(([x, z]) => {

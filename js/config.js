@@ -46,6 +46,17 @@ Nexus.config = {
     pulseFrequency: 0.25    // ciclos por segundo
   },
 
+  // Interacción: al apuntar a una obra se resalta y aparece su información
+  interaction: {
+    maxDistance: 6,       // distancia máxima (m) a la que se puede apuntar a una obra
+    pickRadius: 0.9,      // radio (m) de la zona de selección alrededor de cada obra
+    scaleBoost: 0.1,      // cuánto crece la obra resaltada (0.1 = 10 %)
+    haloRadius: 1.05,     // radio (m) del aro luminoso que rodea a la obra resaltada
+    lightIntensity: 1.2,  // luz extra sobre la obra resaltada
+    lightDistance: 4,
+    fadeSpeed: 8          // rapidez con la que aparece y se desvanece el resaltado
+  },
+
   // Tragaluces ovalados en el techo de las salas
   skylight: { halfLength: 3.2, halfWidth: 2.4, brightness: 1.1 },
 

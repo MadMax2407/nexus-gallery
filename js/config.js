@@ -23,7 +23,10 @@ Nexus.config = {
     hdr: true,            // buffers de brillo extendido para el bloom (false = más ligero)
     msaaSamples: 0,       // suavizado de bordes en el postprocesado (0, 2 o 4)
     bloomScale: 0.5,      // resolución del bloom respecto a la pantalla (0.25 a 1)
-    spotlights: false     // reflectores reales sobre las obras (8 luces extra)
+    bloomEnabled: true,   // false = sin resplandor (más ligero)
+    spotlights: false,    // reflectores reales sobre las obras (8 luces extra)
+    adaptive: true,       // baja la resolución automáticamente si los cuadros por segundo son pocos
+    minPixelRatio: 0.6    // resolución mínima a la que puede bajar
   },
 
   // Iluminación base (tenue: el ambiente lo definen el neón, el mapa de entorno y los tragaluces)
@@ -76,10 +79,30 @@ Nexus.config = {
   eyeHeight: 1.6,
   walkSpeed: 3.2,
   mouseSensitivity: 0.0022,
-  collisionMargin: 0.5,
+  collisionMargin: 0.5,     // distancia mínima a las paredes
+  obstacleMargin: 0.55,     // distancia mínima a los pedestales, medida desde su borde (cubre las figuras que flotan encima)
   startPosition: { x: 0, y: 1.6, z: -4 },
   startYaw: Math.PI,   // empieza mirando hacia el pasillo
 
   // Pedestales: posición [x, z] relativa al centro de cada sala
   pedestalOffsets: [[-5, -5], [5, -5], [-5, 5], [5, 5]]
 };
+
+// Calidad gráfica elegida en el menú inicial (se guarda en el navegador). Si no se ha
+// elegido ninguna, se usan los valores de arriba, que equivalen al nivel "alta".
+(function () {
+  const presets = {
+    alta:  { maxPixelRatio: 1.5,  hdr: true,  bloomScale: 0.5,  bloomEnabled: true },
+    media: { maxPixelRatio: 1,    hdr: false, bloomScale: 0.35, bloomEnabled: true },
+    baja:  { maxPixelRatio: 0.75, hdr: false, bloomScale: 0.25, bloomEnabled: false }
+  };
+  let name = 'alta';
+  try {
+    const saved = localStorage.getItem('nexusQuality');
+    if (saved && presets[saved]) {
+      name = saved;
+      Object.assign(Nexus.config.quality, presets[saved]);
+    }
+  } catch (error) { /* el navegador no permite guardar preferencias */ }
+  Nexus.config.qualityPreset = name;
+})();

@@ -33,6 +33,24 @@
       x >= zone.x[0] && x <= zone.x[1] && z >= zone.z[0] && z <= zone.z[1]);
   }
 
+  // Obstáculos circulares: cada pedestal, con un margen que cubre también la figura que flota encima.
+  const obstacleRadius = Nexus.pedestalSpec.radiusBottom + cfg.obstacleMargin;
+  const obstacles = Nexus.pedestalSlots.map(slot => ({ x: slot.x, z: slot.z }));
+
+  // Si la posición cae dentro de un obstáculo, la empuja hacia su borde (así se rodea sin atorarse).
+  function pushOutOfObstacles(x, z) {
+    obstacles.forEach(obstacle => {
+      const dx = x - obstacle.x;
+      const dz = z - obstacle.z;
+      const distance = Math.hypot(dx, dz);
+      if (distance < obstacleRadius && distance > 1e-6) {
+        x = obstacle.x + dx / distance * obstacleRadius;
+        z = obstacle.z + dz / distance * obstacleRadius;
+      }
+    });
+    return [x, z];
+  }
+
   function update(deltaSeconds) {
     camera.rotation.set(pitch, yaw, 0, 'YXZ');
 
@@ -46,10 +64,16 @@
     if (pressedKeys['KeyA']) move.sub(right);
     if (move.lengthSq() > 0) move.normalize().multiplyScalar(cfg.walkSpeed * deltaSeconds);
 
-    const nextX = camera.position.x + move.x;
-    const nextZ = camera.position.z + move.z;
-    if (isWalkable(nextX, camera.position.z)) camera.position.x = nextX;
-    if (isWalkable(camera.position.x, nextZ)) camera.position.z = nextZ;
+    // Primero las paredes (eje por eje, para poder deslizarse a lo largo de ellas) y luego los pedestales.
+    let x = camera.position.x;
+    let z = camera.position.z;
+    if (isWalkable(x + move.x, z)) x += move.x;
+    if (isWalkable(x, z + move.z)) z += move.z;
+    [x, z] = pushOutOfObstacles(x, z);
+    if (isWalkable(x, z)) {
+      camera.position.x = x;
+      camera.position.z = z;
+    }
   }
 
   Nexus.controls = { update };

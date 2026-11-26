@@ -20,6 +20,7 @@
     new THREE.Vector2(innerWidth * quality.bloomScale, innerHeight * quality.bloomScale),
     cfg.bloom.strength, cfg.bloom.radius, cfg.bloom.threshold
   );
+  bloom.enabled = quality.bloomEnabled !== false;
   composer.addPass(bloom);
 
   // Exposición: comprime los valores muy brillantes con una curva suave para que las
@@ -40,5 +41,12 @@
     bloom.setSize(innerWidth * quality.bloomScale, innerHeight * quality.bloomScale);
   });
 
-  Nexus.postprocessing = { composer, bloom, render: () => composer.render() };
+  // Cambia la resolución de dibujo (lo usa performance.js para adaptarse al equipo).
+  function setPixelRatio(ratio) {
+    renderer.setPixelRatio(ratio);
+    composer.setPixelRatio(ratio);
+    bloom.setSize(innerWidth * quality.bloomScale, innerHeight * quality.bloomScale);
+  }
+
+  Nexus.postprocessing = { composer, bloom, setPixelRatio, render: () => composer.render() };
 })();

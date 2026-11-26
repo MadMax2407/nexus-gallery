@@ -17,10 +17,24 @@
 <div id="hud">
   <b>Nexus Gallery</b><br>
   WASD: moverse · Mouse: mirar · ESC: liberar cursor
+  <div id="fps" hidden></div>
 </div>
 <div id="start">
   <h1>Nexus Gallery</h1>
   <p>Recorrido virtual en primera persona por una galería de arte futurista.</p>
+  <ul id="controls-list">
+    <li><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span> Moverse</li>
+    <li><span><kbd>Mouse</kbd></span> Mirar alrededor</li>
+    <li><span>Apunta a una obra</span> Ver su información</li>
+    <li><span><kbd>Esc</kbd></span> Pausa y menú</li>
+    <li><span><kbd>F</kbd></span> Mostrar los cuadros por segundo</li>
+  </ul>
+  <div id="quality">
+    <span>Calidad gráfica</span>
+    <button data-quality="alta">Alta</button>
+    <button data-quality="media">Media</button>
+    <button data-quality="baja">Baja</button>
+  </div>
   <button id="go">Haz clic para entrar</button>
   <small>Hecho con Three.js (licencia MIT). Texturas y figuras generadas por código.</small>
 </div>
@@ -46,6 +60,7 @@
 <script src="js/plaques.js"></script>
 <script src="js/animation.js"></script>
 <script src="js/interaction.js"></script>
+<script src="js/performance.js"></script>
 <script src="js/postprocessing.js"></script>
 <script src="js/controls.js"></script>
 <script src="js/ui.js"></script>

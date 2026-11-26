@@ -50,3 +50,21 @@ body.locked #crosshair { display: block; }
   background: var(--accent); color: #07131f; border: none; border-radius: 8px;
   padding: 12px 22px; font-size: 15px; font-weight: 600; cursor: pointer;
 }
+#controls-list {
+  list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px;
+  font-size: 13px; color: #aeb7c7; text-align: left;
+}
+#controls-list li { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; }
+#controls-list li > span { text-align: right; color: #e8e8ec; }
+kbd {
+  display: inline-block; min-width: 20px; padding: 2px 6px; margin: 0 2px; text-align: center;
+  font: 600 12px/1.3 inherit; color: #e8e8ec; background: #232733; border: 1px solid #3a4153;
+  border-bottom-width: 2px; border-radius: 5px;
+}
+#quality { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #aeb7c7; }
+#start #quality button {
+  padding: 6px 12px; font-size: 13px; font-weight: 500; color: #e8e8ec;
+  background: #232733; border: 1px solid #3a4153;
+}
+#start #quality button.selected { background: var(--accent); color: #07131f; border-color: var(--accent); font-weight: 600; }
+#fps { margin-top: 4px; color: #aeb7c7; }

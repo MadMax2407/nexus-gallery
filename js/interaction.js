@@ -42,7 +42,7 @@
 
   // Los muros bloquean la selección: no se puede apuntar a una obra a través de una pared.
   const walls = scene.children.filter(object =>
-    object.isMesh && (object.material === Nexus.materials.wall || object.material === Nexus.materials.ceiling));
+    object.isMesh && Nexus.materials.occluders.includes(object.material));
   const targets = items.map(item => item.pick).concat(walls);
 
   const raycaster = new THREE.Raycaster();

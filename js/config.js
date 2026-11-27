@@ -15,7 +15,6 @@ Nexus.config = {
 
   // Texturas: metros de superficie que cubre una repetición de la imagen
   floorTileSize: 4,
-  wallTileSize: 4,
 
   // Rendimiento. Si la imagen va lenta o el equipo se satura, bajar estos valores.
   quality: {
@@ -27,6 +26,17 @@ Nexus.config = {
     spotlights: false,    // reflectores reales sobre las obras (8 luces extra)
     adaptive: true,       // baja la resolución automáticamente si los cuadros por segundo son pocos
     minPixelRatio: 0.6    // resolución mínima a la que puede bajar
+  },
+
+  // Patrón de las superficies: hexágonos en los muros, franjas en el piso y barras de luz en el techo.
+  // Las juntas luminosas toman el color de neón de cada zona; el brillo se da como luminancia
+  // (más de 1 hace que el bloom las haga resplandecer; el piso queda por debajo para no deslumbrar).
+  pattern: {
+    hexSide: 0.9,             // lado de cada hexágono (m)
+    wallLuminance: 1.3,
+    floorLuminance: 0.55,
+    ceilingLuminance: 1.5,
+    ceilingBarSpacing: 2.5    // distancia entre barras de luz del techo (m)
   },
 
   // Iluminación base (tenue: el ambiente lo definen el neón, el mapa de entorno y los tragaluces)

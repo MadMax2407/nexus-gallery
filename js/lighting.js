@@ -115,6 +115,9 @@
   Nexus.pedestalSlots.forEach(addFloorRing);
   if (cfg.quality.spotlights) Nexus.pedestalSlots.forEach(addSpotlight);
 
+  // Las juntas luminosas de muros, piso y techo pulsan junto con el resto del neón.
+  Nexus.materials.glow.forEach(material => neonMaterials.push(material));
+
   // Se exponen para poder animarlos más adelante (pulsos de luz).
   Nexus.lighting = { neonMaterials, neonLights, spotLights, floorRingMaterials: ringMaterials };
 })();
